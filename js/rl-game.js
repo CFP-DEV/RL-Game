@@ -250,15 +250,71 @@ class Game {
         this.UILayer = new Konva.Layer();
 
         // Score Tracker
-        let scoreTrackerBackground = new Konva.Rect({
+        // Score
+        let scoreHeader = new Konva.Text({
             x: 40,
             y: 40,
-            width: 300,
-            height: 80,
-            fill: this.colors.darker
+            fill: this.colors.white,
+            text: 'Score',
+            fontSize: '14',
+            fontFamily: 'Montserrat'
         });
 
-        this.UILayer.add(scoreTrackerBackground);
+        let score = new Konva.Text({
+            x: 40,
+            y: 70,
+            fill: this.colors.white,
+            text: '321',
+            fontSize: '24',
+            fontFamily: 'Montserrat'
+        });
+
+        this.UILayer.add(scoreHeader);
+        this.UILayer.add(score);
+
+        // Multiplier
+        let multiplierHeader = new Konva.Text({
+            x: 40,
+            y: 120,
+            fill: this.colors.white,
+            text: 'Multiplier',
+            fontSize: '14',
+            fontFamily: 'Montserrat'
+        });
+
+        let multiplier = new Konva.Text({
+            x: 40,
+            y: 150,
+            fill: this.colors.white,
+            text: 'x 1.5',
+            fontSize: '24',
+            fontFamily: 'Montserrat'
+        });
+
+        this.UILayer.add(multiplierHeader);
+        this.UILayer.add(multiplier);
+
+        // Combo
+        let comboHeader = new Konva.Text({
+            x: 40,
+            y: 200,
+            fill: this.colors.white,
+            text: 'Combo',
+            fontSize: '14',
+            fontFamily: 'Montserrat'
+        });
+
+        let combo = new Konva.Text({
+            x: 40,
+            y: 230,
+            fill: this.colors.white,
+            text: '60',
+            fontSize: '24',
+            fontFamily: 'Montserrat'
+        });
+
+        this.UILayer.add(comboHeader);
+        this.UILayer.add(combo);
 
         // Song's Info
         // Song's Progress Bar
