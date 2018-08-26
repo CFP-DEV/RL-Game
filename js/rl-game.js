@@ -18,22 +18,30 @@ class Game {
             blueHover: '#07E3E3',
             yellow: '#FFE74C',
             yellowHover: '#E4CF46',
+            gray: '#C8C8C8',
             white: '#FFFFFF'
         }
 
         // Stages
-        this.menuStage;
+        this.gameStage;
+
+        // Layers
+        this.backgroundLayer;
+        this.menuLayer;
+        this.normalModeLayer;
+        this.hardModeLayer;
+        this.optionsLayer;
     }
 
     // Initialize
     init () {
         console.log('Game Initialized');
 
-        this.menuStage();   
+        this.gameStage();   
     }
 
-    menuStage () {
-        this.menuStage = new Konva.Stage({
+    gameStage () {
+        this.gameStage = new Konva.Stage({
             container: this.gameContainer,
             x: 0,
             y: 0,
@@ -42,7 +50,7 @@ class Game {
         });
 
         // Background Layer
-        let backgroundLayer = new Konva.Layer();
+        this.backgroundLayer = new Konva.Layer();
         
         let backgroundObject = new Konva.Rect({
             x: 0,
@@ -52,10 +60,10 @@ class Game {
             fill: this.gameBackground
         });
 
-        backgroundLayer.add(backgroundObject);
+        this.backgroundLayer.add(backgroundObject);
 
         // Menu Layer
-        let menuLayer = new Konva.Layer({
+        this.menuLayer = new Konva.Layer({
             x: this.gameWidth / 2 - 400,
             y: 0,
             width: 800,
@@ -71,7 +79,7 @@ class Game {
             fill: this.colors.darker
         });
 
-        menuLayer.add(menuBackgroundObject);
+        this.menuLayer.add(menuBackgroundObject);
 
         // Calculate gap
         let gap = (800 - 600) / 4;
@@ -87,21 +95,21 @@ class Game {
         });
 
         normalMode.on('click', () => {
-            console.log('1');
+            this.normalMode();
         });
 
         normalMode.on('mouseover', () => {
             normalMode.fill(this.colors.redHover);
 
-            this.menuStage.container().style.cursor = 'pointer';
-            menuLayer.draw();
+            this.gameStage.container().style.cursor = 'pointer';
+            this.menuLayer.draw();
         });
 
         normalMode.on('mouseout', () => {
             normalMode.fill(this.colors.red);
 
-            this.menuStage.container().style.cursor = 'default';
-            menuLayer.draw();
+            this.gameStage.container().style.cursor = 'default';
+            this.menuLayer.draw();
         });
 
         let normalModeContent = new Konva.Text({
@@ -115,8 +123,8 @@ class Game {
             align: 'center'
         });
 
-        menuLayer.add(normalMode);
-        menuLayer.add(normalModeContent);
+        this.menuLayer.add(normalMode);
+        this.menuLayer.add(normalModeContent);
 
         // Menu Layer - Hard Mode
         let hardMode = new Konva.Rect({
@@ -124,7 +132,7 @@ class Game {
             y: 100,
             width: 200,
             height: this.gameHeight - 200,
-            fill: this.colors.blue,
+            fill: this.colors.gray,
             cornerRadius: 8
         });
 
@@ -133,17 +141,17 @@ class Game {
         });
 
         hardMode.on('mouseover', () => {
-            hardMode.fill(this.colors.blueHover);
+            hardMode.fill(this.colors.gray);
 
-            this.menuStage.container().style.cursor = 'pointer';
-            menuLayer.draw();
+            this.gameStage.container().style.cursor = 'pointer';
+            this.menuLayer.draw();
         });
 
         hardMode.on('mouseout', () => {
-            hardMode.fill(this.colors.blue);
+            hardMode.fill(this.colors.gray);
 
-            this.menuStage.container().style.cursor = 'default';
-            menuLayer.draw();
+            this.gameStage.container().style.cursor = 'default';
+            this.menuLayer.draw();
         });
 
         let hardModeContent = new Konva.Text({
@@ -157,8 +165,8 @@ class Game {
             align: 'center'
         });
 
-        menuLayer.add(hardMode);
-        menuLayer.add(hardModeContent);
+        this.menuLayer.add(hardMode);
+        this.menuLayer.add(hardModeContent);
 
         // Menu Layer - Options
         let options = new Konva.Rect({
@@ -177,15 +185,15 @@ class Game {
         options.on('mouseover', () => {
             options.fill(this.colors.yellowHover);
 
-            this.menuStage.container().style.cursor = 'pointer';
-            menuLayer.draw();
+            this.gameStage.container().style.cursor = 'pointer';
+            this.menuLayer.draw();
         });
 
         options.on('mouseout', () => {
             options.fill(this.colors.yellow);
 
-            this.menuStage.container().style.cursor = 'default';
-            menuLayer.draw();
+            this.gameStage.container().style.cursor = 'default';
+            this.menuLayer.draw();
         });
 
         let optionsContent = new Konva.Text({
@@ -199,12 +207,22 @@ class Game {
             align: 'center'
         });
 
-        menuLayer.add(options);
-        menuLayer.add(optionsContent);
+        this.menuLayer.add(options);
+        this.menuLayer.add(optionsContent);
 
         // Combine Layers
-        this.menuStage.add(backgroundLayer);
-        this.menuStage.add(menuLayer);
+        this.gameStage.add(this.backgroundLayer);
+        this.gameStage.add(this.menuLayer);
+    }
+
+    normalMode () {
+        console.log('Normal Mode');
+
+        // Destroy Menu Layer
+        this.menuLayer.destroy();
+
+        // Create Normal Mode Layer
+        th
     }
 }
 
