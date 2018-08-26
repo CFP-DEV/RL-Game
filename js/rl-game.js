@@ -22,6 +22,14 @@ class Game {
             white: '#FFFFFF'
         }
 
+        // Layers Options
+        this.layersOptions = {
+            x: this.gameWidth / 2 - 400,
+            y: 0,
+            width: 800,
+            height: this.gameHeight
+        }
+
         // Stages
         this.gameStage;
 
@@ -31,6 +39,7 @@ class Game {
         this.normalModeLayer;
         this.hardModeLayer;
         this.optionsLayer;
+        this.UILayer;
     }
 
     // Initialize
@@ -63,12 +72,7 @@ class Game {
         this.backgroundLayer.add(backgroundObject);
 
         // Menu Layer
-        this.menuLayer = new Konva.Layer({
-            x: this.gameWidth / 2 - 400,
-            y: 0,
-            width: 800,
-            height: this.gameHeight
-        });
+        this.menuLayer = new Konva.Layer(this.layersOptions);
 
         // Menu Layer - Background
         let menuBackgroundObject = new Konva.Rect({
@@ -221,8 +225,94 @@ class Game {
         // Destroy Menu Layer
         this.menuLayer.destroy();
 
+        // Initialize UI
+        this.initUI();
+
         // Create Normal Mode Layer
-        th
+        this.normalModeLayer = new Konva.Layer(this.layersOptions);
+
+        // Menu Layer - Background
+        let backgroundObject = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: 800,
+            height: this.gameHeight,
+            fill: this.colors.darker
+        });
+
+        this.normalModeLayer.add(backgroundObject);
+
+        // Combine Layers
+        this.gameStage.add(this.normalModeLayer);
+    }
+
+    initUI () {
+        this.UILayer = new Konva.Layer();
+
+        // Score Tracker
+        let scoreTrackerBackground = new Konva.Rect({
+            x: 40,
+            y: 40,
+            width: 300,
+            height: 80,
+            fill: this.colors.darker
+        });
+
+        this.UILayer.add(scoreTrackerBackground);
+
+        // Song's Info
+        // Song's Progress Bar
+        let progressBar = new Konva.Rect({
+           x: 40,
+           y: this.gameHeight - 48,
+           width: 300,
+           height: 8,
+           cornerRadius: 8,
+           fill: this.colors.darker 
+        });
+
+        this.UILayer.add(progressBar);
+
+        let progressBarColor = new Konva.Rect({
+            x: 40,
+            y: this.gameHeight - 48,
+            width: 100,
+            height: 8,
+            cornerRadius: 8,
+            fill: this.colors.red 
+        });
+
+        this.UILayer.add(progressBarColor);
+
+        // Song's Name
+        let name = new Konva.Text({
+            x: 40,
+            y: progressBar.getPosition().y - 20,
+            text: 'Capone - Oh No',
+            fontSize: 10,
+            fontFamily: 'Montserrat',
+            fill: this.colors.white,
+        });
+
+        this.UILayer.add(name);
+
+        // Song's Duration
+        let duration = new Konva.Text({
+            x: 40 + progressBar.width(),
+            y: progressBar.getPosition().y - 20,
+            text: '1:11 / 3:33',
+            fontSize: 10,
+            fontFamily: 'Montserrat',
+            align: 'right',
+            fill: this.colors.white,
+        });
+
+        duration.move({x: -duration.width()});
+
+        this.UILayer.add(duration);
+
+        // Combine Layers
+        this.gameStage.add(this.UILayer);
     }
 }
 
